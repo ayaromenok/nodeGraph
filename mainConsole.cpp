@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QDebug>
+#include "test/ytestnodes.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,5 +13,9 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("yaromenok.info");
     app.setApplicationName(QFileInfo(app.applicationFilePath()).baseName());
 
-    return app.exec();
+    YTestNodes *ytn = new YTestNodes;
+    ytn->run();
+    delete ytn;
+
+    return 0;
 }
