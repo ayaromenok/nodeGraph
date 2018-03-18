@@ -12,11 +12,13 @@ CONFIG += c++11
 
 SOURCES += mainConsole.cpp \
     nd/ynode.cpp \
-    test/ytestnodes.cpp
+    test/ytestnodes.cpp \
+    nd/ycamera.cpp
 
 HEADERS += \
     nd/ynode.h \
     test/ytestnodes.h \
-    nd/ynodeList.h
+    nd/ynodeList.h \
+    nd/ycamera.h
 
 

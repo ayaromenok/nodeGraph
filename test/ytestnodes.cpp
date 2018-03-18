@@ -32,8 +32,8 @@ YTestNodes::_addAllNodes()
     if (_ndl)
     {
         _ndl->append(new YNode("root"));//at 0 is alwyas root node
-        _ndl->append(new YNode("child", _ndl->at(0)));
-        _ndl->append(new YNode("child of a child", _ndl->at(1)));
+        _ndl->append(new YCamera("camera", _ndl->at(0)));
+        _ndl->append(new YNode("child of a camera", _ndl->at(1)));
         _ndl->append(new YNode("child2", _ndl->at(0)));
     }
     qDebug() << "added nodes" << _ndl->length();
