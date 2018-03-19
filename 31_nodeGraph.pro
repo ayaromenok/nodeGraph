@@ -11,14 +11,24 @@ DEFINES += GIT_VERSION2=\\\"$$system(git branch | grep \* >> $$PWD/program_versi
 CONFIG += c++11
 
 SOURCES += mainConsole.cpp \
-    nd/ynode.cpp \
     test/ytestnodes.cpp \
-    nd/ycamera.cpp
+    nd/ynode.cpp \
+    nd/ycamera.cpp \
+    nd/ymesh.cpp \
+    nd/ypolycube.cpp \
+    nd/ypolyplane.cpp \
+    nd/yscript.cpp \
+    nd/ytransform.cpp
 
 HEADERS += \
-    nd/ynode.h \
     test/ytestnodes.h \
+    nd/ynode.h \    
     nd/ycamera.h \
-    nd/ynodelist.h
+    nd/ynodelist.h \
+    nd/ymesh.h \    
+    nd/ypolycube.h \
+    nd/ypolyplane.h \
+    nd/yscript.h \
+    nd/ytransform.h
 
 

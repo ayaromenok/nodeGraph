@@ -8,7 +8,7 @@ class YCamera : public YNode
 {
     Q_OBJECT
 public:
-    YCamera(QString name = "YNode", QObject *parent = nullptr);
+    YCamera(QString name = "YCamera", QObject *parent = nullptr);
     ~YCamera();
 };
 
