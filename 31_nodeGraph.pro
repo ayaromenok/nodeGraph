@@ -18,7 +18,7 @@ SOURCES += mainConsole.cpp \
 HEADERS += \
     nd/ynode.h \
     test/ytestnodes.h \
-    nd/ynodeList.h \
-    nd/ycamera.h
+    nd/ycamera.h \
+    nd/ynodelist.h
 
 

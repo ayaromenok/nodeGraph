@@ -1,7 +1,7 @@
 #include "ytestnodes.h"
 #include <QDebug>
 
-#include "nd/ynodeList.h"
+#include "nd/ynodelist.h"
 
 YTestNodes::YTestNodes(QObject *parent) : QObject(parent)
 {
