@@ -33,6 +33,9 @@ YTestNodes::_addAllNodes()
     {
         _ndl->append(new YNode("root"));//at 0 is alwyas root node
         _ndl->append(new YTransform("front", _ndl->at(0)));
+        ((YTransform*)_ndl->at(1))->setTx(0.314);
+        ((YTransform*)_ndl->at(1))->setTy(3.14);
+        ((YTransform*)_ndl->at(1))->setTz(-31.415);
         _ndl->append(new YCamera("camera", _ndl->at(1)));
         _ndl->append(new YTransform("MeshObj0", _ndl->at(0)));
         _ndl->append(new YMesh("Mesh0", _ndl->at(3)));
@@ -44,7 +47,7 @@ YTestNodes::_addAllNodes()
     }
     qDebug() << "added nodes" << _ndl->length();
 
-    _ndl->at(0)->dumpObjectTree();
+    ((YNode*)_ndl->at(0))->dumpObjectTreeData();
     //_ndl->at(0)->dumpObjectInfo();
     return true;
 }

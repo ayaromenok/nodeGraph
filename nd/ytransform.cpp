@@ -16,3 +16,12 @@ YTransform::~YTransform()
 {
     qDebug() << "~YTransform()";
 }
+
+void
+YTransform::dumpObjectData(int intend)
+{
+    QByteArray buf;
+    buf.fill(' ',(intend+4));
+    qDebug("%s%s: %6.3f, %6.3f, %6.3f", static_cast<const char*>(buf),
+           "double3", _pos.x, _pos.y, _pos.z);
+}
