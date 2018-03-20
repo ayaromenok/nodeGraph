@@ -33,17 +33,24 @@ YTestNodes::_addAllNodes()
     {
         _ndl->append(new YNode("root"));//at 0 is alwyas root node
         _ndl->append(new YTransform("front", _ndl->at(0)));
-        ((YTransform*)_ndl->at(1))->setTx(0.314);
-        ((YTransform*)_ndl->at(1))->setTy(3.14);
-        ((YTransform*)_ndl->at(1))->setTz(-31.415);
-        _ndl->append(new YCamera("camera", _ndl->at(1)));
+        ((YTransform*)_ndl->last())->setTx(0.314);
+        ((YTransform*)_ndl->last())->setTy(3.14);
+        ((YTransform*)_ndl->last())->setTz(-31.415);
+        ((YTransform*)_ndl->last())->setR(double3{30.0,45.0,60.0});
+        ((YTransform*)_ndl->last())->setS(double3{1.1,2.2,3.3});
+        _ndl->append(new YCamera("camera", _ndl->last()));
+
         _ndl->append(new YTransform("MeshObj0", _ndl->at(0)));
-        _ndl->append(new YMesh("Mesh0", _ndl->at(3)));
-        _ndl->append(new YPolyCube("Cube0", _ndl->at(4)));
+        ((YTransform*)_ndl->last())->setS(double3{0.9,1.8,2.7});
+        _ndl->append(new YMesh("Mesh0", _ndl->last()));
+        _ndl->append(new YPolyCube("Cube0", _ndl->last()));
+
         _ndl->append(new YTransform("MeshObj1", _ndl->at(0)));
-        _ndl->append(new YMesh("Mesh1", _ndl->at(6)));
-        _ndl->append(new YPolyPlane("Cube1", _ndl->at(7)));
-        _ndl->append(new YScript("Script0", _ndl->at(0)));
+        ((YTransform*)_ndl->last())->setR(double3{11.1,22.2,33.3});
+        _ndl->append(new YMesh("Mesh1", _ndl->last()));
+        _ndl->append(new YPolyPlane("Cube1", _ndl->last()));
+
+        _ndl->append(new YScript("Script0", _ndl->last()));
     }
     qDebug() << "added nodes" << _ndl->length();
 
