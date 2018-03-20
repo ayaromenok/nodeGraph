@@ -25,12 +25,12 @@ public slots:
     void    setTy(double ty){_pos.y = ty; emit tyChanged(ty);}
 
     double   tz(){return _pos.z;}
-    void    setTz(double tz){_pos.x= tz; emit tzChanged(tz);}
+    void    setTz(double tz){_pos.z= tz; emit tzChanged(tz);}
 
     double3   t(){return _pos;}
-    void    setT(double3 t){_pos = t; emit tChanged();}
+    void    setT(double3 t){_pos = t; emit tChanged(t);}
 
-
+    void dumpObjectData(int intend);
 signals:
     void txChanged(double);
     void tyChanged(double);
