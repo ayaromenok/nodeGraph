@@ -29,6 +29,7 @@ HEADERS += \
     nd/ypolycube.h \
     nd/ypolyplane.h \
     nd/yscript.h \
-    nd/ytransform.h
+    nd/ytransform.h \
+    core/ybasictypes.h
 
 
