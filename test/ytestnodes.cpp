@@ -52,6 +52,11 @@ YTestNodes::_addAllNodes()
 
         _ndl->append(new YMesh("Mesh0", _ndl->last()));
         _ndl->append(new YPolyCube("Cube0", _ndl->last()));
+        (static_cast<YPolyCube*> (_ndl->last()))->setW(3.2);
+        (static_cast<YPolyCube*> (_ndl->last()))->setH(2.2);
+        (static_cast<YPolyCube*> (_ndl->last()))->setD(1.1);
+        (static_cast<YPolyCube*> (_ndl->last()))->setSw(3);
+        (static_cast<YPolyCube*> (_ndl->last()))->setSh(2);
 
         _ndl->append(new YTransform("MeshObj1", _ndl->at(0)));
         (static_cast<YTransform*> (_ndl->last()))->setRx(11.1);
