@@ -10,9 +10,11 @@ static void dumpRecursive(int level, const QObject *object)
             buf += "    ";
         QString name = object->objectName();
         QString flags = QLatin1String("");
-        qDebug("%s%s::%s %s", (const char*)buf, object->metaObject()->className(), name.toLocal8Bit().data(),
+        qDebug("%s%s::%s %s", static_cast<const char*>(buf),
+               object->metaObject()->className(), name.toLocal8Bit().data(),
                flags.toLatin1().data());
-        ((YNode*)object)->dumpObjectData(buf.length());
+        (dynamic_cast<YNode*>((const_cast <QObject*>(object))))
+                ->dumpObjectData(buf.length());
         QObjectList children = object->children();
         if (!children.isEmpty()) {
             for (int i = 0; i < children.size(); ++i)
