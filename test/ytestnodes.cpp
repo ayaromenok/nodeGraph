@@ -42,6 +42,7 @@ YTestNodes::_addAllNodes()
 
         _ndl->append(new YCamera("camera", _ndl->last()));
         (static_cast<YCamera*> (_ndl->last()))->setO(false);
+        (static_cast<YCamera*> (_ndl->last()))->setCap(double2{1.41732, 0.94488});
 
         _ndl->append(new YTransform("MeshObj0", _ndl->at(0)));
         (static_cast<YTransform*> (_ndl->last()))->setT(double3{2.98, -3.97, 4.96});
