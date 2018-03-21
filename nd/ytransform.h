@@ -24,6 +24,8 @@ class YTransform : public YNode
     Q_PROPERTY(double sz READ sz WRITE setSz NOTIFY szChanged)
     Q_PROPERTY(double3 s READ s WRITE setS NOTIFY sChanged)
 
+    Q_PROPERTY(bool v READ v WRITE setV NOTIFY vChanged)
+
 public:
     YTransform(QString name = "YTransform", QObject *parent = nullptr);
     ~YTransform();
@@ -59,6 +61,10 @@ public slots:
     double3   s(){return _scale;}
     void    setS(double3 s){_scale = s; emit tChanged(s);}
 
+    //v - visibility
+    bool      v(){return _visibility;}
+    void    setV(bool v){_visibility = v; emit vChanged(v);}
+
     void dumpObjectData(int intend);
 
 signals:
@@ -77,10 +83,13 @@ signals:
     void szChanged(double);
     void sChanged(double3);
 
+    void vChanged(bool);
+
 private:
     double3  _translate;
     double3  _rotate;
     double3  _scale;
+    bool     _visibility;
 };
 
 #endif // YTRANSFORM_H

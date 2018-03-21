@@ -38,6 +38,7 @@ YTestNodes::_addAllNodes()
         (static_cast<YTransform*> (_ndl->last()))->setTz(31.415);
         (static_cast<YTransform*> (_ndl->last()))->setR(double3{30.0,-45.0,60.0});
         (static_cast<YTransform*> (_ndl->last()))->setS(double3{1.1,-2.2,3.3});
+        (static_cast<YTransform*> (_ndl->last()))->setV(false);
 
         _ndl->append(new YCamera("camera", _ndl->last()));
         (static_cast<YCamera*> (_ndl->last()))->setO(false);
