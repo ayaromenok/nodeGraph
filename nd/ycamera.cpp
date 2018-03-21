@@ -23,7 +23,7 @@ YCamera::dumpObjectData(int intend)
 
     qDebug("%s%s: %s", static_cast<const char*>(buf),
            "ortho",(_ortho?"true":"false"));
-    if ((_cap.x != 1.5) && (_cap.y != 1.0))
+    if ((_cap.x != 1.5) || (_cap.y != 1.0))
     qDebug("%s%s: %6.3f, %6.3f", static_cast<const char*>(buf),
            "camera aperture", _cap.x, _cap.y);
 }
