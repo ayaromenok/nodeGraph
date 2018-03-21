@@ -40,6 +40,8 @@ YTestNodes::_addAllNodes()
         (static_cast<YTransform*> (_ndl->last()))->setS(double3{1.1,-2.2,3.3});
 
         _ndl->append(new YCamera("camera", _ndl->last()));
+        (static_cast<YCamera*> (_ndl->last()))->setO(false);
+
         _ndl->append(new YTransform("MeshObj0", _ndl->at(0)));
         (static_cast<YTransform*> (_ndl->last()))->setT(double3{2.98, -3.97, 4.96});
         (static_cast<YTransform*> (_ndl->last()))->setSx(0.9);
