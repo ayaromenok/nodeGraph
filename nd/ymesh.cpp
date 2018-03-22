@@ -10,7 +10,7 @@ YMesh::YMesh(QString name, QObject *parent)
     _vtLength = 0;
     _n = new QVector<float3>;
     _nLength = 0;
-    _ed = new QVector<int>;
+    _ed = new QVector<int2>;
     _edLength = 0;
     _fc = new QVector<int>;
     _faceLength = 4;    //default

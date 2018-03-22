@@ -28,7 +28,7 @@ private:
     int                 _vtLength;
     QVector<float3>*    _n;//normals(faces)
     int                 _nLength;
-    QVector<int>*       _ed;//edges,
+    QVector<int2>*       _ed;//edges,
     int                 _edLength;
     QVector<int>*       _fc;//(faces, can be 3(tri) or 4 for now)
     int                 _faceLength;
