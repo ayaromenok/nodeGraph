@@ -66,7 +66,11 @@ YTestNodes::_addAllNodes()
         _ndl->append(new YMesh("Mesh1", _ndl->last()));
         (static_cast<YMesh*> (_ndl->last()))->setI(" -s 8 \".vt[0:7]\"  -3 -2 1 3 -2 1 -3 2 1 3 2 1 -3 2 -1 3 2 -1 -3 -2 -1 3 -2 -1;");
 
-        _ndl->append(new YPolyPlane("Cube1", _ndl->last()));
+        _ndl->append(new YPolyPlane("Plane0", _ndl->last()));
+        (static_cast<YPolyPlane*> (_ndl->last()))->setW(3.2);
+        (static_cast<YPolyPlane*> (_ndl->last()))->setH(2.2);
+        (static_cast<YPolyPlane*> (_ndl->last()))->setSw(3);
+        (static_cast<YPolyPlane*> (_ndl->last()))->setSh(2);
 
         _ndl->append(new YScript("Script0", _ndl->at(0)));
     }
