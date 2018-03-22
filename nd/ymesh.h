@@ -21,6 +21,8 @@ signals:
     void iChanged(QString);
 private:
     bool                _parseInput();
+    float3              _getFloat3(QStringList* list,int i);
+    int2                 _getArrayLength(QString value);
     QString             _sLastIn;
     QVector<float3>*    _vt;
     int                 _vtLength;

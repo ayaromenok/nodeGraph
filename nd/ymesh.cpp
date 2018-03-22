@@ -20,10 +20,10 @@ YMesh::YMesh(QString name, QObject *parent)
 YMesh::~YMesh()
 {
     qDebug() << "~YMesh()";
-    delete[] _vt;
-    delete [] _n;
-    delete [] _ed;
-    delete [] _fc;
+    delete _vt;
+    delete _n;
+    delete _ed;
+    delete _fc;
 }
 
 void
@@ -41,17 +41,19 @@ YMesh::_parseInput()
     //cube 6x4x2 triangulated
 //    setAttr -s 8 ".vt[0:7]"  -3 -2 1 3 -2 1 -3 2 1 3 2 1 -3 2 -1 3 2 -1
 //                     -3 -2 -1 3 -2 -1;
+
     QStringList sList(_sLastIn.split(' '));
+    sList.last().chop(1);
     qDebug() << sList;
     int listLength = sList.length();
 
-    int     arrLength = 0;
+    int     arrRecomendedLength = 0;
     QString arrType;
 
     for (int i=0; i<listLength; i++){
         if (sList.at(i).contains("-s")){
             i++;
-            arrLength = sList.at(i).toInt();
+            arrRecomendedLength = sList.at(i).toInt();
         }
         if (sList.at(i).contains("-type")){
             i++;
@@ -59,26 +61,51 @@ YMesh::_parseInput()
             arrType.append(sList.at(i));
         }
         if (sList.at(i).contains(".vt")){
-            //need to parse too.
+            int2 arrLength = _getArrayLength(sList.at(i));
+            qDebug() << "vt array:" << arrLength.x << arrLength.y
+                     << ", recomended length" << arrRecomendedLength;
+            _vtLength = arrLength.y-arrLength.x;
             i+=2; //it's a additional space in Maya ASCII;
-            for (int j=0; j<_vtLength;j++){
-                //getFloat3
+            for (int j=arrLength.x; j<=arrLength.y;j++){
                 //getInt2
                 //getInt3
                 //getInt4
-                float3 vt;
-                vt.x = sList.at(i).toFloat();
-                i++;
-                vt.y = sList.at(i).toFloat();
-                i++;
-                vt.z = sList.at(i).toFloat();
-                i++;
-                _vt->append(vt);
+                _vt->append(_getFloat3(&sList, i));
+                i+=3;
             }
         }
     }
 
     return true;
+}
+
+float3
+YMesh::_getFloat3(QStringList* list, int ii)
+{
+    float3 vt;
+    vt.x = list->at(ii).toFloat();
+    ii++;
+    vt.y = list->at(ii).toFloat();
+    ii++;
+    vt.z = list->at(ii).toFloat();
+    ii++;
+    return vt;
+}
+
+int2
+YMesh::_getArrayLength(QString value)
+{
+    int braceOpen = value.indexOf("[");
+    int separator = value.indexOf(":");
+    int braceClose = value.indexOf("]");
+    int2 arr;
+    arr.x =  value.mid(braceOpen+1, (separator-braceOpen-1)).toInt();
+    arr.y = value.mid(separator+1, (braceClose -separator-1)).toInt();
+    qDebug() << value.mid(braceOpen, (separator-braceOpen))
+             << value.mid(separator, (braceClose -separator))
+            << arr.x << arr.y;
+
+    return arr;
 }
 void
 YMesh::dumpObjectData(int intend)
