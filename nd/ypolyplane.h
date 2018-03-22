@@ -29,7 +29,7 @@ public slots:
     int     sh(){return _sh;}
     void    setSh(int sh){_sh = sh; emit shChanged(sh);}
 
-    void dumpObjectData(int intend);
+    void    dumpObjectData(int intend);
 signals:
     void    wChanged(double);
     void    hChanged(double);
