@@ -64,7 +64,9 @@ YTestNodes::_addAllNodes()
         (static_cast<YTransform*> (_ndl->last()))->setRz(33.3);
 
         _ndl->append(new YMesh("Mesh1", _ndl->last()));
-        (static_cast<YMesh*> (_ndl->last()))->setI(" -s 8 \".vt[0:7]\"  -3 -2 1 3 -2 1 -3 2 1 3 2 1 -3 2 -1 3 2 -1 -3 -2 -1 3 -2 -1;");
+        (static_cast<YMesh*> (_ndl->last()))->setI(" -s 8 \".vt[0:7]\"  -3 -2 1 "
+                                                   "3 -2 1 -3 2 1 3 2 1 -3 2 -1 "
+                                                   "3 2 -1 -3 -2 -1 3 -2 -1;");
 
         _ndl->append(new YPolyPlane("Plane0", _ndl->last()));
         (static_cast<YPolyPlane*> (_ndl->last()))->setW(3.2);
@@ -73,6 +75,9 @@ YTestNodes::_addAllNodes()
         (static_cast<YPolyPlane*> (_ndl->last()))->setSh(2);
 
         _ndl->append(new YScript("Script0", _ndl->at(0)));
+        (static_cast<YScript*> (_ndl->last()))->setSt(3);
+        (static_cast<YScript*> (_ndl->last()))->setB("test script body "
+                                                     "suppose to be MEL");
     }
     qDebug() << "added nodes" << _ndl->length();
 
