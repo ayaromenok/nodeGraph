@@ -93,6 +93,44 @@ YMesh::_getFloat3(QStringList* list, int ii)
 }
 
 int2
+YMesh::_getInt2(QStringList* list, int ii)
+{
+    int2 value;
+    value.x = list->at(ii).toInt();
+    ii++;
+    value.y = list->at(ii).toInt();
+    ii++;
+    return value;
+}
+
+int3
+YMesh::_getInt3(QStringList* list, int ii)
+{
+    int3 value;
+    value.x = list->at(ii).toInt();
+    ii++;
+    value.y = list->at(ii).toInt();
+    ii++;
+    value.z = list->at(ii).toInt();
+    ii++;
+    return value;
+}
+
+int4
+YMesh::_getInt4(QStringList* list, int ii)
+{
+    int4 value;
+    value.x = list->at(ii).toInt();
+    ii++;
+    value.y = list->at(ii).toInt();
+    ii++;
+    value.z = list->at(ii).toInt();
+    ii++;
+    value.w = list->at(ii).toInt();
+    ii++;
+    return value;
+}
+int2
 YMesh::_getArrayLength(QString value)
 {
     int braceOpen = value.indexOf("[");

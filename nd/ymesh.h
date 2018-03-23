@@ -22,7 +22,11 @@ signals:
 private:
     bool                _parseInput();
     float3              _getFloat3(QStringList* list,int i);
-    int2                 _getArrayLength(QString value);
+    int2                _getInt2(QStringList* list,int i);
+    int3                _getInt3(QStringList* list,int i);
+    int4                _getInt4(QStringList* list,int i);
+
+    int2                _getArrayLength(QString value);
     QString             _sLastIn;
     QVector<float3>*    _vt;
     int                 _vtLength;
