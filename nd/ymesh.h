@@ -32,9 +32,11 @@ private:
     int                 _vtLength;
     QVector<float3>*    _n;//normals(faces)
     int                 _nLength;
-    QVector<int2>*       _ed;//edges,
+    QVector<int2>*      _ed;//edges,
     int                 _edLength;
-    QVector<int>*       _fc;//(faces, can be 3(tri) or 4 for now)
+    //! \todo evaluate on more examamples preferable face storage
+    QVector<int3>*      _fc3;//(faces, can be 3(tri))
+    QVector<int4>*      _fc4;//(faces, can be 4 )
     int                 _faceLength;
     int                 _fcLength;
 };

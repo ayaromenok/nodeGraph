@@ -12,7 +12,8 @@ YMesh::YMesh(QString name, QObject *parent)
     _nLength = 0;
     _ed = new QVector<int2>;
     _edLength = 0;
-    _fc = new QVector<int>;
+    _fc3 = new QVector<int3>;
+    _fc4 = new QVector<int4>;
     _faceLength = 4;    //default
     _fcLength = 0;;
 }
@@ -20,10 +21,16 @@ YMesh::YMesh(QString name, QObject *parent)
 YMesh::~YMesh()
 {
     qDebug() << "~YMesh()";
+    _vt->clear();
     delete _vt;
+    _n->clear();
     delete _n;
+    _ed->clear();
     delete _ed;
-    delete _fc;
+    _fc3->clear();
+    delete _fc3;
+    _fc4->clear();
+    delete _fc4;
 }
 
 void
@@ -38,9 +45,9 @@ YMesh::setI(QString i)
 bool
 YMesh::_parseInput()
 {
-    //cube 6x4x2 triangulated
-//    setAttr -s 8 ".vt[0:7]"  -3 -2 1 3 -2 1 -3 2 1 3 2 1 -3 2 -1 3 2 -1
-//                     -3 -2 -1 3 -2 -1;
+    //cube 6x4x2 triangulated or quad
+    //    setAttr -s 8 ".vt[0:7]"  -3 -2 1 3 -2 1 -3 2 1 3 2 1 -3 2 -1 3 2 -1
+    //                     -3 -2 -1 3 -2 -1;
 
     QStringList sList(_sLastIn.split(' '));
     sList.last().chop(1);
@@ -48,12 +55,17 @@ YMesh::_parseInput()
     int listLength = sList.length();
 
     int     arrRecomendedLength = 0;
+    int     arrRecomendedCapacity = 0;
     QString arrType;
 
     for (int i=0; i<listLength; i++){
         if (sList.at(i).contains("-s")){
             i++;
             arrRecomendedLength = sList.at(i).toInt();
+        }
+        if (sList.at(i).contains("-ch")){
+            i++;
+            arrRecomendedCapacity = sList.at(i).toInt();
         }
         if (sList.at(i).contains("-type")){
             i++;
@@ -62,17 +74,66 @@ YMesh::_parseInput()
         }
         if (sList.at(i).contains(".vt")){
             int2 arrLength = _getArrayLength(sList.at(i));
-            qDebug() << "vt array:" << arrLength.x << arrLength.y
+            qDebug() << "vertex array:" << arrLength.x << arrLength.y
                      << ", recomended length" << arrRecomendedLength;
-            _vtLength = arrLength.y-arrLength.x;
             i+=2; //it's a additional space in Maya ASCII;
             for (int j=arrLength.x; j<=arrLength.y;j++){
-                //getInt2
-                //getInt3
-                //getInt4
                 _vt->append(_getFloat3(&sList, i));
                 i+=3;
             }
+            _vtLength = _vt->length();
+            break;
+        }
+        if (sList.at(i).contains(".ed")){
+            int2 arrLength = _getArrayLength(sList.at(i));
+            qDebug() << "edges array:" << arrLength.x << arrLength.y
+                     << ", recomended length" << arrRecomendedLength;
+            i+=2; //it's a additional space in Maya ASCII;
+            for (int j=arrLength.x; j<=arrLength.y;j++){
+                _ed->append(_getInt2(&sList, i));
+                i+=3; //edge represented by 3 values: 1st, 2nd and 0. so drop zero
+            }
+            _edLength = _ed->length();
+            break;
+        }
+        if (sList.at(i).contains(".n")){
+            int2 arrLength = _getArrayLength(sList.at(i));
+            qDebug() << "normals array:" << arrLength.x << arrLength.y
+                     << ", recomended length" << arrRecomendedLength;
+            i+=2; //it's a additional space in Maya ASCII;
+            for (int j=arrLength.x; j<=arrLength.y;j++){
+                _n->append(_getFloat3(&sList, i));
+                i+=3;
+            }
+            _nLength = _n->length();
+            break;
+        }
+        if (sList.at(i).contains(".fc")){
+            qDebug() << "NOT IMPLEMENTED, need more evaluation";
+//            int2 arrLength = _getArrayLength(sList.at(i));
+//            _faceLength = arrRecomendedCapacity/arrRecomendedLength;
+//            qDebug() << "faces array:" << arrLength.x << arrLength.y
+//                     << ", recomended length" << arrRecomendedLength
+//                     << ", recomended capacity" << arrRecomendedCapacity
+//                     <<", face length" << _faceLength;
+
+//            i+=2; //it's a additional space in Maya ASCII;
+//            for (int j=arrLength.x; j<=arrLength.y;j++){
+//                if (_faceLength == 3){
+//                    _fc3->append(_getInt3(&sList, i));
+//                    i+=3;
+//                } else if (_faceLength == 4){
+//                    _fc4->append(_getInt4(&sList, i));
+//                    i+=4;
+//                } else {
+//                    qDebug() << "unsupported face length";
+//                }
+//            }
+//            if (_faceLength == 4)
+//                _fcLength = _fc4->length();
+//            else if(_faceLength == 3)
+//                _fcLength = _fc3->length();
+//            break;
         }
     }
 
@@ -141,7 +202,7 @@ YMesh::_getArrayLength(QString value)
     arr.y = value.mid(separator+1, (braceClose -separator-1)).toInt();
     qDebug() << value.mid(braceOpen, (separator-braceOpen))
              << value.mid(separator, (braceClose -separator))
-            << arr.x << arr.y;
+             << arr.x << arr.y;
 
     return arr;
 }
@@ -150,10 +211,41 @@ YMesh::dumpObjectData(int intend)
 {
     QByteArray buf;
     buf.fill(' ',(intend+4));
-    int lengthV = _vt->length();
-    if (lengthV > 0){
-        for (int i=0; i<lengthV; i++)
-            qDebug("%s%s: %6.3f, %6.3f, %6.3f", static_cast<const char*>(buf),
-            "x, y, z", _vt->at(i).x, _vt->at(i).y, _vt->at(i).z );
+
+    if (_vtLength > 0){
+        qDebug("%s%s:   %d", static_cast<const char*>(buf),
+               "vertex  length", _vtLength );
+        for (int i=0; i<_vtLength; i++)
+            qDebug("%s%s:   %6.3f, %6.3f, %6.3f", static_cast<const char*>(buf),
+                   "vertex x, y, z", _vt->at(i).x, _vt->at(i).y, _vt->at(i).z );
+    }
+    if (_nLength > 0){
+        qDebug("%s%s:   %d", static_cast<const char*>(buf),
+               "normal  length", _nLength );
+        for (int i=0; i<_nLength; i++)
+            qDebug("%s%s:   %6.3f, %6.3f, %6.3f", static_cast<const char*>(buf),
+                   "normal x, y, z", _n->at(i).x, _n->at(i).y, _n->at(i).z );
+    }
+    if (_edLength > 0){
+        qDebug("%s%s:   %d", static_cast<const char*>(buf),
+               "edge    length", _edLength );
+        for (int i=0; i<_edLength; i++)
+            qDebug("%s%s:   %d, %d", static_cast<const char*>(buf),
+                   "edge       a b", _ed->at(i).x, _ed->at(i).y );
+    }
+    if (_fcLength > 0){
+        qDebug("%s%s:   %d", static_cast<const char*>(buf),
+               "faces    length", _fcLength );
+        if (_faceLength == 4) {
+            for (int i=0; i<_fcLength; i++)
+                qDebug("%s%s:   %d, %d, %d, %d", static_cast<const char*>(buf),
+                       "face   a b c d", _fc4->at(i).x, _fc4->at(i).y,
+                       _fc4->at(i).z, _fc4->at(i).w );
+        } else if (_faceLength == 3) {
+            for (int i=0; i<_edLength; i++)
+                qDebug("%s%s:   %d, %d, %d", static_cast<const char*>(buf),
+                       "face    a b c", _fc3->at(i).x, _fc3->at(i).y,
+                       _fc3->at(i).z );
+        }
     }
 }
