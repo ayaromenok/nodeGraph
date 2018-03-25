@@ -1,6 +1,8 @@
 #ifndef YNODELIST_H
 #define YNODELIST_H
 
+#include "core/ybasictypes.h"
+
 #include "nd/ynode.h"
 #include "nd/ycamera.h"
 #include "nd/ymesh.h"
