@@ -233,6 +233,9 @@ YMesh::dumpObjectData(int intend)
             qDebug("%s%s:   %d, %d", static_cast<const char*>(buf),
                    "edge       a b", _ed->at(i).x, _ed->at(i).y );
     }
+
+    qDebug("%s%s", static_cast<const char*>(buf),
+           "faces not implemented yet");
     if (_fcLength > 0){
         qDebug("%s%s:   %d", static_cast<const char*>(buf),
                "faces    length", _fcLength );
